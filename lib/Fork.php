@@ -14,7 +14,6 @@ class Fork
     public static function Process(callable $fuc)
     {
         $pid = pcntl_fork();
-        echo $pid . PHP_EOL;
         if ($pid > 0) {
             pcntl_wait($status);
         } elseif ($pid == 0) {
