@@ -13,10 +13,22 @@ class Fork
 {
     public static function Process(callable $fuc)
     {
-        $child_pid = pcntl_fork();
-        if ($child_pid) {
-            call_user_func($fuc);
-            //die();
+        $pid = pcntl_fork();
+        echo $pid . PHP_EOL;
+        if ($pid > 0) {
+            pcntl_wait($status);
+        } elseif ($pid == 0) {
+            $cid = pcntl_fork();
+            if ($cid > 0) {
+                exit();
+            } elseif ($cid == 0) {
+                $fuc();
+                exit();
+            } else {
+                exit();
+            }
+        } else {
+            exit();
         }
     }
 }
